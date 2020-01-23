@@ -6,10 +6,39 @@ import colorsys
 import time
 import numpy as np
 
-import blinkt
+text_mode = False
 
-from sys import exit
+try:
+    import blinkt
+except ImportError:
+    print("No blinkt package; switching to text mode.")
+    text_mode = True
 
+from sys import exit, stdout
+
+# This way we can test things out on laptop
+if text_mode:
+    counter = 0
+    direction = 1
+    width = 8
+    while True:
+        counter = counter + direction
+
+        if counter > width - 1:
+            direction = -1
+        elif counter < 1:
+            direction = 1
+
+        output = ""
+        for x in range(0, counter):
+            output = output + "-"
+        output = output + "X"
+        for x in range(counter, width):
+            output = output + "-"
+        output = output + '\r'
+        stdout.write(output)
+        stdout.flush()
+        time.sleep(0.1)
 
 blinkt.set_clear_on_exit()
 
